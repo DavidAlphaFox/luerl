@@ -186,7 +186,7 @@ do_read_file(#comp{lfile=Name,opts=Opts}=St) ->
 	    Ret;
 	{error,E} -> {error,St#comp{errors=[{none,file,E}]}}
     end.
-
+%% 扫描lua字符串，生成token
 do_scan(#comp{code=Str,opts=Opts}=St) ->
     case luerl_scan:string(Str) of
 	{ok,Ts,_} ->
@@ -194,7 +194,7 @@ do_scan(#comp{code=Str,opts=Opts}=St) ->
 	    {ok,St#comp{code=Ts}};
 	{error,E,_} -> {error,St#comp{errors=[E]}}
     end.
-
+%% 解析语法，创建默认的代码段
 do_parse(#comp{code=Ts,opts=Opts}=St) ->
     case luerl_parse:chunk(Ts) of
 	{ok,Chunk} ->

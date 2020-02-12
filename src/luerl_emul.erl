@@ -427,7 +427,7 @@ load_function([?PUSH_FDEF(Lsz, Esz, Pars, Is)], Env, St) ->
 %% call(Function, Args, State) -> {Return,State}.
 
 call(Func, St) -> call(Func, [], St).
-
+%% 调用lua函数
 call(#lua_func{}=Func, Args, St0) ->		%Already defined
     {Ret,St1} = functioncall(Func, Args, St0),
     %% Should do GC here.
@@ -743,7 +743,7 @@ do_op2(Is, Lvs, [A2,A1|Stk], Env, St, Op) ->
     end.
 
 %% do_fdef(LocalSize, EnvSize, Pars, Instrs, Env, State) -> {Function,State}.
-
+%% 构建函数记录
 do_fdef(Lsz, Esz, Pars, Is, Env, St) ->
     {#lua_func{lsz=Lsz,esz=Esz,pars=Pars,env=Env,b=Is},St}.
 
@@ -1137,7 +1137,7 @@ build_tab_loop(C, [V,K|Stk], Fs) ->
 %% op(Op, Arg) -> {ok,Ret} | {meta,Func} | {error,Error}.
 %% op(Op, Arg1, Arg2) -> {ok,Ret} | {meta,Func} | {error,Error}.
 %%  The built-in operators. Always return a single value!
-
+%% 操作符号
 op('-', A) ->
     numeric_op('-', A, <<"__unm">>, fun (N) -> -N end);
 op('not', A) -> {ok,not ?IS_TRUE(A)};
